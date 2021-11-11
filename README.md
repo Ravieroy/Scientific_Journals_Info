@@ -1,5 +1,6 @@
 # Scientific_Journals_Info
-Displays important information(like Rank, H-Index, SJR, Total Citations, Citations per document etc.) related to scientific journals.
+
+## Displays important information(like Rank, H-Index, SJR, Total Citations, Citations per document etc.) related to scientific journals.
 ---
 ### Functionality
 
