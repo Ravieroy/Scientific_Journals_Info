@@ -19,5 +19,4 @@ You need to have these modules installed for this to work. You can get them from
 
 ### Screenshot
 
-![image][image.png]
-
+![image](https://user-images.githubusercontent.com/81288438/204155709-89b066df-4c13-4e3d-b2f0-3fa569f85779.png)
