@@ -8,6 +8,11 @@ Update DB Allows you to update the database to reflect the changes.(Basically do
 
 Search: This allows you to search for journals that are shown in the lower panel. From there you can find your desired journal to look for.
 
+### Key Bindings 
+Enter : Show the result(equivalent to clicking on **Get Results**)
+Ctrl+f : Search the query(equivalent to clicking on **Search**)
+Ctrl+q : Quit application
+
 ---
 ### Python Module required
 
