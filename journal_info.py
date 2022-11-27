@@ -1,12 +1,10 @@
 import pandas as pd
-
-# from pandas import read_csv
-import tkinter as tk
+import customtkinter
 import requests
 from tkinter import messagebox
 
-HEIGHT = 700
-WIDTH = 800
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("dark-blue")
 
 # ------Formats the response to be shown ----------
 
@@ -70,8 +68,14 @@ def get_data(journal_name):
                 search_results = data.loc[
                     data["Title"].str.contains(journal_name, case=False)
                 ]
-                label["text"] = format_response(search_results)
-                return search_results
+                journal_info = format_response(search_results)
+                text = customtkinter.CTkTextbox(
+                    label,
+                    text_font=("Courier", 12),
+                )
+                text.place(relwidth=1, relheight=1)
+                text.insert(customtkinter.END, journal_info)
+
             except FileNotFoundError:
                 messagebox.showerror(
                     "FileNotFoundError",
@@ -119,9 +123,9 @@ def search_command(journal_name):
                 journal_name_list.append(search_results.iloc[journal_names]["Title"])
 
             Str = "\n".join(journal_name_list)
-            text = tk.Text(label_bottom)
+            text = customtkinter.CTkTextbox(label_bottom)
             text.place(relwidth=1, relheight=1)
-            text.insert(tk.END, Str)
+            text.insert(customtkinter.END, Str)
 
         except FileNotFoundError:
             messagebox.showerror(
@@ -147,70 +151,68 @@ def update_command():  # This will download the csv file if not already present.
 
 
 # ----Initilisation and making a canvas : Begin ---
-root = tk.Tk()
+root = customtkinter.CTk()
 root.resizable(0, 0)
-
-canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH)
-canvas.pack()
-
-background_image = tk.PhotoImage(file="image.png")
-background_label = tk.Label(root, image=background_image)
-background_label.place(relwidth=1, relheight=1)
 
 # ----Initilisation and making a canvas : End ---
 
 # ---- top frame: Begin -----
-top_frame = tk.Frame(root, bg="#80c1ff", bd=5)
-top_frame.place(relx=0.5, rely=0.05, relwidth=0.9, relheight=0.1, anchor="n")
+top_frame = customtkinter.CTkFrame(root)
+top_frame.place(relx=0.5, rely=0.05, relwidth=0.92, relheight=0.1, anchor="n")
 
 # ------Lower frame: Begin----
-lower_frame = tk.Frame(root, bg="#80c1ff", bd=10)
-lower_frame.place(relx=0.5, rely=0.15, relwidth=0.9, relheight=0.55, anchor="n")
+lower_frame = customtkinter.CTkFrame(root, bd=10)
+lower_frame.place(relx=0.5, rely=0.15, relwidth=0.95, relheight=0.55, anchor="n")
 
 # -----Bottom Frame -----
 
-bottom_frame = tk.Frame(root, bg="#80c1ff", bd=5)
-bottom_frame.place(relx=0.5, rely=0.71, relwidth=0.9, relheight=0.18, anchor="n")
+bottom_frame = customtkinter.CTkFrame(root)
+bottom_frame.place(relx=0.5, rely=0.70, relwidth=0.92, relheight=0.18, anchor="n")
 
 # Text entry in top frame
-entry = tk.Entry(top_frame, font=("courier", 12))
-entry.place(relwidth=0.6, relheight=1)
+entry = customtkinter.CTkEntry(
+    top_frame, placeholder_text="Enter Journal Name", text_font=("courier", 12)
+)
+entry.place(relwidth=0.65, relheight=1)
 
 # Get results button in top frame
-button = tk.Button(
+button = customtkinter.CTkButton(
     top_frame,
     text="Get Results",
-    font=("courier", 12),
+    text_font=("courier", 12),
     command=lambda: get_data(entry.get()),
 )
 button.place(relx=0.7, relwidth=0.3, relheight=1)
 
 # -----Close Button----
 
-close_button = tk.Button(root, text="Close", bg="gray", command=root.destroy)
+close_button = customtkinter.CTkButton(
+    root, text="Close", bg="gray", command=root.destroy
+)
 close_button.place(relx=0.4, rely=0.9, relwidth=0.2, relheight=0.05)
 
 # -----Update Button----
 
-update_button = tk.Button(root, text="Update DB", bg="gray", command=update_command)
+update_button = customtkinter.CTkButton(
+    root, text="Update DB", bg="gray", command=update_command
+)
 update_button.place(relx=0.75, rely=0.9, relwidth=0.2, relheight=0.05)
 
 # ----Search Button-----
-search_button = tk.Button(
+search_button = customtkinter.CTkButton(
     root, text="Search", bg="gray", command=lambda: search_command(entry.get())
 )
 search_button.place(relx=0.05, rely=0.9, relwidth=0.2, relheight=0.05)
 
 
-label = tk.Label(lower_frame, font=("courier", 14))
+label = customtkinter.CTkLabel(
+    lower_frame, text="Journal Information", text_font=("courier", 14)
+)
 label.place(relwidth=1, relheight=1)
 
-label_bottom = tk.Label(bottom_frame, font=("courier", 12))
+label_bottom = customtkinter.CTkLabel(
+    bottom_frame, text="Search Results", text_font=("courier", 12)
+)
 label_bottom.place(relwidth=1, relheight=1)
-
-# ---- Key Bindings --------
-root.bind("<Return>", lambda event=None: button.invoke())
-root.bind("<Control-f>", lambda event=None: search_button.invoke())
-root.bind("<Control-q>", lambda event=None: close_button.invoke())
 
 root.mainloop()
